@@ -1,0 +1,78 @@
+
+import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+public class PetDisplayApp {
+    private JFrame frame;
+    private ButtonGroup petGroup;
+
+    public PetDisplayApp() {
+        frame = new JFrame("Pet Display App");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setSize(300, 200);
+
+        petGroup = new ButtonGroup();
+        createWidgets();
+
+        frame.setVisible(true);
+    }
+
+    private void createWidgets() {
+        JPanel panel = new JPanel();
+        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+
+        JLabel label = new JLabel("Select a pet:");
+        panel.add(label);
+
+        JRadioButton dogButton = new JRadioButton("Dog");
+        JRadioButton catButton = new JRadioButton("Cat");
+        JRadioButton birdButton = new JRadioButton("Bird");
+        JRadioButton pigButton = new JRadioButton("pig");
+        JRadioButton rabbitButton = new JRadioButton("Rabbit");
+
+        petGroup.add(dogButton);
+        petGroup.add(catButton);
+        petGroup.add(birdButton);
+        petGroup.add(pigButton);
+        petGroup.add(rabbitButton);
+
+        panel.add(dogButton);
+        panel.add(catButton);
+        panel.add(birdButton);
+        panel.add(pigButton);
+        panel.add(rabbitButton);
+
+        JButton displayButton = new JButton("Display");
+        displayButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                displayPet();
+            }
+        });
+
+        panel.add(displayButton);
+
+        frame.getContentPane().add(panel);
+    }
+
+    private void displayPet() {
+        for (Enumeration<AbstractButton> buttons = petGroup.getElements(); buttons.hasMoreElements(); ) {
+            AbstractButton button = buttons.nextElement();
+            if (button.isSelected()) {
+                JOptionPane.showMessageDialog(frame, "You selected a " + button.getText() + ".");
+                return;
+            }
+        }
+
+        JOptionPane.showMessageDialog(frame, "Please select a pet.", "Error", JOptionPane.ERROR_MESSAGE);
+    }
+
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(new Runnable() {
+            public void run() {
+                new PetDisplayApp();
+            }
+        });
+    }
+}
